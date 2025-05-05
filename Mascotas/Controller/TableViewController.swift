@@ -30,8 +30,8 @@ class TableViewController: UITableViewController {
         switch filtro.selectedSegmentIndex {
             case 1:mascotas = DataManager.shared.todasLasMascotas(tipo: "gato")
             case 2:mascotas = DataManager.shared.todasLasMascotas(tipo:"perro")
-            case 3:mascotas = // TODO: - Crea el método necesario
-            case 4:mascotas = // TODO: - Crea el método necesario
+            case 3:mascotas = DataManager.shared.todasLasMascotas(tipos:["Perico", "Canario"])
+            case 4:mascotas = DataManager.shared.todasLasMascotas(noTipos:["Perro", "Gato", "Perico", "Canario"])
             default:mascotas = DataManager.shared.todasLasMascotas()
         }
         tableView.reloadData()

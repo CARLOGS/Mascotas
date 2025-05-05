@@ -25,6 +25,7 @@
 		3DBDD8192DBD407400842729 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DBDD8172DBD407400842729 /* Main.storyboard */; };
 		3DBDD81E2DBD407800842729 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DBDD81D2DBD407800842729 /* Assets.xcassets */; };
 		3DBDD8212DBD407800842729 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DBDD81F2DBD407800842729 /* LaunchScreen.storyboard */; };
+		AB9418222DC953890071AB28 /* IQKeyboardReturnManager in Frameworks */ = {isa = PBXBuildFile; productRef = AB9418212DC953890071AB28 /* IQKeyboardReturnManager */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB9418222DC953890071AB28 /* IQKeyboardReturnManager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +173,9 @@
 				Base,
 			);
 			mainGroup = 3DBDD8052DBD407400842729;
+			packageReferences = (
+				AB9418202DC953890071AB28 /* XCRemoteSwiftPackageReference "IQKeyboardReturnManager" */,
+			);
 			productRefGroup = 3DBDD80F2DBD407400842729 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -435,6 +440,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AB9418202DC953890071AB28 /* XCRemoteSwiftPackageReference "IQKeyboardReturnManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardReturnManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AB9418212DC953890071AB28 /* IQKeyboardReturnManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB9418202DC953890071AB28 /* XCRemoteSwiftPackageReference "IQKeyboardReturnManager" */;
+			productName = IQKeyboardReturnManager;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		3D1193162DC57E3D00D809C3 /* Mascotas.xcdatamodeld */ = {

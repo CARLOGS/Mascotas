@@ -122,6 +122,7 @@ class DataManager : NSObject {
             if let idMascota = responsableVO.duenoDe, idMascota != 0 {
                 if let miMascota = buscaMascotaConId(idMascota) {
                     responsable.mascotas?.adding(miMascota)
+                    // (((( OJO )))): Activar el Brak Point (para cargar sin error)
                     miMascota.responsable = responsable
                 }
             }
@@ -143,9 +144,31 @@ class DataManager : NSObject {
         return nil
     }
     
+    func todosLosResponsables() -> [Responsable] {
+        var arreglo = [Responsable]()
+        let elQuery = Responsable.fetchRequest()
+
+        // Ordena por nombre
+        let sortDescriptor = NSSortDescriptor(key: "nombre", ascending: true)
+        elQuery.sortDescriptors = [sortDescriptor]
+
+        do {
+            arreglo = try persistentContainer.viewContext.fetch(elQuery)
+        }
+        catch {
+            print ("no se puede ejecutar el query SELECT * FROM Responsable")
+        }
+        return arreglo
+    }
+
     func todasLasMascotas() -> [Mascota] {
         var arreglo = [Mascota]()
         let elQuery = Mascota.fetchRequest()
+
+        // Ordena por nombre
+        let sortDescriptor = NSSortDescriptor(key: "nombre", ascending: true)
+        elQuery.sortDescriptors = [sortDescriptor]
+
         do {
             arreglo = try persistentContainer.viewContext.fetch(elQuery)
         }
@@ -158,21 +181,76 @@ class DataManager : NSObject {
     func todasLasMascotas(tipo:String) -> [Mascota] {
         var arreglo = [Mascota]()
         let elQuery = Mascota.fetchRequest()
+
         // [c] significa "case insensitive"
         let elFiltro = NSPredicate(format:"tipo =[c] %@", tipo)
         elQuery.predicate = elFiltro
+        
+        // Ordena por nombre
+        let sortDescriptor = NSSortDescriptor(key: "nombre", ascending: true)
+        elQuery.sortDescriptors = [sortDescriptor]
+
         do {
             arreglo = try persistentContainer.viewContext.fetch(elQuery)
         }
         catch {
             print ("no se puede ejecutar el query SELECT * FROM Mascota WHERE tipo='%'")
         }
+        
+        // Orena el arreglo
+        /*
         let sortedA = arreglo.sorted {m1, m2  in
             return m1.nombre ?? "" > m2.nombre ?? ""  // Descendente
         }
-        return sortedA
+        */
+        
+        return arreglo
     }
-    
+
+    func todasLasMascotas(tipos:[String]) -> [Mascota] {
+        var arreglo = [Mascota]()
+        let elQuery = Mascota.fetchRequest()
+
+        // [c] significa "case insensitive"
+        let elFiltro = NSPredicate(format:"tipo IN %@", tipos)
+        elQuery.predicate = elFiltro
+
+        // Ordena por nombre
+        let sortDescriptor = NSSortDescriptor(key: "nombre", ascending: true)
+        elQuery.sortDescriptors = [sortDescriptor]
+
+        do {
+            arreglo = try persistentContainer.viewContext.fetch(elQuery)
+        }
+        catch {
+            print ("no se puede ejecutar el query SELECT * FROM Mascota WHERE tipo IN %@")
+        }
+
+        return arreglo
+    }
+
+    func todasLasMascotas(noTipos:[String]) -> [Mascota] {
+        var arreglo = [Mascota]()
+        let elQuery = Mascota.fetchRequest()
+
+        // [c] significa "case insensitive"
+        let elFiltro = NSPredicate(format:"NOT (tipo IN %@)", noTipos)
+        elQuery.predicate = elFiltro
+
+        // Ordena por nombre
+        let sortDescriptor = NSSortDescriptor(key: "nombre", ascending: true)
+        elQuery.sortDescriptors = [sortDescriptor]
+
+        do {
+            arreglo = try persistentContainer.viewContext.fetch(elQuery)
+        }
+        catch {
+            print ("no se puede ejecutar el query SELECT * FROM Mascota WHERE NOT (tipo IN %@)")
+        }
+
+        return arreglo
+    }
+
     func resumenMascotas() -> String {
         var resumen = ""
         let queryM = Mascota.fetchRequest()
@@ -211,9 +289,18 @@ class DataManager : NSObject {
         return resumen
     }
     
-    func borrar(objeto:NSManagedObject){
+    func borrar(objeto:NSManagedObject) {
         persistentContainer.viewContext.delete(objeto)
         saveContext()
         NotificationCenter.default.post(name: NSNotification.Name("DELETED_OBJECT"), object:nil)
+    }
+    
+    func adopta(mascota:Mascota, responsable: Responsable) {
+        responsable.mascotas?.adding(mascota)
+        mascota.responsable = responsable
+        
+        saveContext()
+        
+        NotificationCenter.default.post(name: NSNotification.Name("PET ADOPTED"), object:nil)
     }
 }
