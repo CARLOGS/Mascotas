@@ -15,7 +15,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        detalle = DetailView(frame:view.bounds.insetBy(dx: 40, dy: 40))
+        detalle = DetailView(frame:view.bounds.insetBy(dx: 0, dy: 0))
         view.addSubview(detalle)
     }
     

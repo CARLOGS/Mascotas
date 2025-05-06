@@ -21,7 +21,9 @@ class TableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         actualizar()
+        
         NotificationCenter.default.addObserver(self, selector:#selector(actualizar), name: NSNotification.Name("DELETED_OBJECT"), object:nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(actualizar), name: NSNotification.Name("PET_ADOPTED"), object:nil)
     }
     
     @objc
